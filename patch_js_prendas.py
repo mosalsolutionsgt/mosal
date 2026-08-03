@@ -1,4 +1,4 @@
-document.addEventListener('DOMContentLoaded', () => {
+new_js = """document.addEventListener('DOMContentLoaded', () => {
     // State Machine
     const state = {
         category: null, 
@@ -65,8 +65,6 @@ document.addEventListener('DOMContentLoaded', () => {
         colorOptions: document.querySelectorAll('#colorPicker .color-option'),
         selectedColorDisplay: document.getElementById('selectedColorDisplay'),
         qtyInputs: document.querySelectorAll('.qty-input'),
-        sizeChartContainer: document.getElementById('sizeChartContainer'),
-        sizeChartImg: document.getElementById('sizeChartImg'),
         totalQtyDisplay: document.getElementById('totalQty'),
         
         // Uniformes
@@ -248,24 +246,24 @@ document.addEventListener('DOMContentLoaded', () => {
     function buildPrendasEstilos(prendaType) {
         elements.prendasEstilosGrid.innerHTML = '';
         let estilos = [];
-        if (prendaType === 'Playera / Polo') {
+        if (prendaType === 'Playera') {
             estilos = [
-                { name: 'T-Shirt Normal', img: 'assets/mockups/prendas/page_9_img_0.png', chart: 'assets/mockups/prendas/page_13_img_0.png' },
-                { name: 'Polo Hombre', img: 'assets/mockups/prendas/page_8_img_0.png', chart: 'assets/mockups/prendas/page_11_img_0.png' },
-                { name: 'Polo Mujer', img: 'assets/mockups/prendas/page_8_img_0.png', chart: 'assets/mockups/prendas/page_12_img_0.png' }
+                { name: 'T-Shirt Normal', img: 'https://via.placeholder.com/300x300?text=T-Shirt' },
+                { name: 'Polo Hombre', img: 'https://via.placeholder.com/300x300?text=Polo+Hombre' },
+                { name: 'Polo Mujer', img: 'https://via.placeholder.com/300x300?text=Polo+Mujer' }
             ];
         } else if (prendaType === 'Sudadera') {
             estilos = [
-                { name: 'Sin Bolsa', img: 'assets/mockups/prendas/page_4_img_0.png', chart: 'assets/mockups/prendas/page_10_img_0.png' },
-                { name: 'Con Zipper', img: 'assets/mockups/prendas/page_5_img_0.png', chart: 'assets/mockups/prendas/page_10_img_0.png' },
-                { name: 'Hoodie con Bolsa', img: 'assets/mockups/prendas/page_6_img_0.png', chart: 'assets/mockups/prendas/page_10_img_0.png' },
-                { name: 'Oversize', img: 'assets/mockups/prendas/page_7_img_0.png', chart: 'assets/mockups/prendas/page_10_img_0.png' }
+                { name: 'Sin Bolsa', img: 'sudadera sin bolsas 100% algodon/1.png' },
+                { name: 'Con Zipper', img: 'https://via.placeholder.com/300x300?text=Sudadera+Zipper' },
+                { name: 'Hoodie con Bolsa', img: 'https://via.placeholder.com/300x300?text=Hoodie' },
+                { name: 'Oversize', img: 'https://via.placeholder.com/300x300?text=Oversize' }
             ];
         } else if (prendaType === 'Gorra') {
             estilos = [
-                { name: 'Trucker', img: 'assets/mockups/prendas/page_2_img_0.png', chart: null },
-                { name: 'De Mezclilla', img: 'assets/mockups/prendas/page_1_img_0.png', chart: null },
-                { name: 'Acrílica', img: 'assets/mockups/prendas/page_3_img_0.png', chart: null }
+                { name: 'Trucker', img: 'https://via.placeholder.com/300x300?text=Gorra+Trucker' },
+                { name: 'De Mezclilla', img: 'https://via.placeholder.com/300x300?text=Mezclilla' },
+                { name: 'Acrílica', img: 'https://via.placeholder.com/300x300?text=Acrilica' }
             ];
         }
 
@@ -284,15 +282,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 document.querySelectorAll('#prendasEstilosGrid .card-option').forEach(c => c.classList.remove('selected'));
                 div.classList.add('selected');
                 state.prendas.estilo = est.name;
-                
-                // Set Size Chart
-                if (est.chart) {
-                    elements.sizeChartImg.src = est.chart;
-                    elements.sizeChartContainer.style.display = 'block';
-                } else {
-                    elements.sizeChartContainer.style.display = 'none';
-                }
-
                 validateStep();
             });
 
@@ -487,7 +476,7 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateTotal() {
         let total = 0;
         if (state.category === 'prendas') {
-            if (state.prendas.prenda === 'Playera / Polo' && state.prendas.estilo === 'T-Shirt Normal' && state.prendas.totalQty >= 25) {
+            if (state.prendas.prenda === 'Playera' && state.prendas.estilo === 'T-Shirt Normal' && state.prendas.totalQty >= 25) {
                 for (let [size, qty] of Object.entries(state.prendas.cantidades)) {
                     let price = 50;
                     if (['XL', 'XXL', '3XL'].includes(size)) {
@@ -495,20 +484,8 @@ document.addEventListener('DOMContentLoaded', () => {
                     }
                     total += price * qty;
                 }
-            } else if (state.prendas.prenda === 'Playera / Polo' && (state.prendas.estilo === 'Polo Hombre' || state.prendas.estilo === 'Polo Mujer')) {
-                for (let [size, qty] of Object.entries(state.prendas.cantidades)) {
-                    let price = 115;
-                    if (['L', 'XL', 'XXL', '3XL'].includes(size)) {
-                        price = 125;
-                    }
-                    total += price * qty;
-                }
-            } else if (state.prendas.prenda === 'Sudadera' && state.prendas.estilo === 'Hoodie con Bolsa') {
-                for (let [size, qty] of Object.entries(state.prendas.cantidades)) {
-                    total += 155 * qty;
-                }
             } else {
-                total = 0; // Precios pendientes (Oversize, Sin bolsa, Zipper, Gorras)
+                total = 0; 
             }
         } else if (state.category === 'uniformes') {
             const isCamisa = state.uniformes.prenda && state.uniformes.prenda.includes('CAMISA');
@@ -639,3 +616,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
     updateWizardUI();
 });
+"""
+
+with open("/Users/herbertmoscoso/Downloads/WEB MOSAL FINAL/assets/js/cotizador.js", "w", encoding="utf-8") as f:
+    f.write(new_js)
+
+print("Updated JS.")

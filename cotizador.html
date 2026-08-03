@@ -62,14 +62,13 @@
                 <!-- FLUJO PRENDAS -->
                 <!-- ============================ -->
                 <section class="wizard-step flow-prendas" id="step_prendas_1" data-step-id="1">
-                    <h2>1. ¿Qué deseas personalizar?</h2>
+                    <h2>1. ¿Qué tipo de prenda buscas?</h2>
                     
                     <div class="form-group">
-                        <label>Tipo de Prenda</label>
                         <div class="cards-grid" id="prendaCards">
                             <div class="card-option" data-value="playera" data-base-price="0">
                                 <span class="card-icon">👕</span>
-                                <h3>Playera</h3>
+                                <h3>Playera / Polo</h3>
                             </div>
                             <div class="card-option" data-value="sudadera" data-base-price="0">
                                 <span class="card-icon">🧥</span>
@@ -81,6 +80,17 @@
                             </div>
                         </div>
                     </div>
+                </section>
+
+                <section class="wizard-step flow-prendas" id="step_prendas_2" data-step-id="2">
+                    <h2>2. Selecciona tu Estilo y Técnica</h2>
+                    
+                    <div class="form-group">
+                        <label>Estilo de Prenda</label>
+                        <div class="cards-grid" id="prendasEstilosGrid">
+                            <!-- Inyectado via JS -->
+                        </div>
+                    </div>
 
                     <div class="form-group">
                         <label>Técnica de Personalización</label>
@@ -88,29 +98,30 @@
                             <div class="card-option" data-value="dtf" data-tech-price="0">
                                 <span class="card-icon">🖨️</span>
                                 <h3>DTF</h3>
-                                <p class="tooltip">Impresión digital de alta calidad.</p>
                             </div>
                             <div class="card-option" data-value="vinil_textil" data-tech-price="0">
                                 <span class="card-icon">✂️</span>
                                 <h3>Vinil Textil</h3>
-                                <p class="tooltip">Acabado liso, ideal para logotipos sólidos.</p>
                             </div>
                             <div class="card-option" data-value="bordado" data-tech-price="0">
                                 <span class="card-icon">🧵</span>
                                 <h3>Bordado</h3>
-                                <p class="tooltip">Elegante, duradero y profesional.</p>
                             </div>
                             <div class="card-option" data-value="sublimacion" data-tech-price="0">
                                 <span class="card-icon">🎨</span>
                                 <h3>Sublimación</h3>
-                                <p class="tooltip">Tacto cero, ideal para poliéster blanco.</p>
                             </div>
                         </div>
                     </div>
                 </section>
 
-                <section class="wizard-step flow-prendas" id="step_prendas_2" data-step-id="2">
-                    <h2>2. Detalles y Cantidades</h2>
+                <section class="wizard-step flow-prendas" id="step_prendas_3" data-step-id="3">
+                    <h2>3. Detalles y Cantidades</h2>
+                    
+                    <!-- Contenedor dinámico de Tabla de Tallas -->
+                    <div id="sizeChartContainer" style="display: none; margin-bottom: 20px; text-align: center;">
+                        <img id="sizeChartImg" src="" alt="Tabla de Tallas" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    </div>
                     
                     <div class="form-group">
                         <label>Color Base de la Prenda</label>
