@@ -1,0 +1,582 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cotizador Mosal | Personalización y Servicios</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="assets/css/cotizador.css">
+</head>
+<body>
+    <div class="mosal-quote-container">
+        <!-- HEADER -->
+        <header class="mosal-header">
+            <img src="logo-full-white mosal.png" alt="Mosal Logo" class="mosal-logo" onerror="this.src='https://via.placeholder.com/150x50?text=MOSAL'">
+            <h1>Cotizador en Línea</h1>
+            <p>Selecciona tu servicio y obtén un estimado rápido.</p>
+        </header>
+
+        <div class="mosal-wizard">
+            <!-- Progress Bar -->
+            <div class="wizard-progress hidden" id="progressContainer">
+                <div class="progress-bar">
+                    <div class="progress-fill" id="progressFill"></div>
+                </div>
+                <div class="progress-steps" id="progressSteps">
+                    <!-- Dinámicamente llenado por JS -->
+                </div>
+            </div>
+
+            <main class="wizard-content">
+                <!-- STEP 0: Categoría Principal -->
+                <section class="wizard-step active" id="step_category" data-step-id="0">
+                    <h2>¿Qué deseas cotizar hoy?</h2>
+                    
+                    <div class="cards-grid category-grid">
+                        <div class="card-option category-card" data-category="prendas">
+                            <span class="card-icon">👕</span>
+                            <h3>Prendas Personalizadas</h3>
+                            <p class="tooltip">Playeras, sudaderas, gorras.</p>
+                        </div>
+                        <div class="card-option category-card" data-category="uniformes">
+                            <span class="card-icon">🦺</span>
+                            <h3>Uniformes Industriales</h3>
+                            <p class="tooltip">Camisas Columbia y pantalones de lona reflectivos.</p>
+                        </div>
+                        <div class="card-option category-card" data-category="galardones">
+                            <span class="card-icon">🏆</span>
+                            <h3>Galardones de Cristal</h3>
+                            <p class="tooltip">Reconocimientos de cristal con impresión DTF UV.</p>
+                        </div>
+                        <div class="card-option category-card" data-category="dtf_uv">
+                            <span class="card-icon">📏</span>
+                            <h3>Metros DTF UV</h3>
+                            <p class="tooltip">Impresión por metro lineal para superficies rígidas.</p>
+                        </div>
+                        <div class="card-option category-card" data-category="stickers">
+                            <span class="card-icon">🏷️</span>
+                            <h3>Stickers</h3>
+                            <p class="tooltip">Cotiza tus stickers por cientos.</p>
+                        </div>
+                        <div class="card-option category-card" data-category="otros">
+                            <span class="card-icon">📦</span>
+                            <h3>Otros Productos</h3>
+                            <p class="tooltip">Cotiza productos fuera del catálogo (tazas, libretas, etc).</p>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================ -->
+                <!-- FLUJO PRENDAS -->
+                <!-- ============================ -->
+                <section class="wizard-step flow-prendas" id="step_prendas_1" data-step-id="1">
+                    <h2>1. ¿Qué tipo de prenda buscas?</h2>
+                    
+                    <div class="form-group">
+                        <div class="cards-grid" id="prendaCards">
+                            <div class="card-option" data-value="playera" data-base-price="0">
+                                <span class="card-icon">👕</span>
+                                <h3>Playera / Polo</h3>
+                            </div>
+                            <div class="card-option" data-value="sudadera" data-base-price="0">
+                                <span class="card-icon">🧥</span>
+                                <h3>Sudadera</h3>
+                            </div>
+                            <div class="card-option" data-value="gorra" data-base-price="0">
+                                <span class="card-icon">🧢</span>
+                                <h3>Gorra</h3>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="wizard-step flow-prendas" id="step_prendas_2" data-step-id="2">
+                    <h2>2. Selecciona tu Estilo y Técnica</h2>
+                    
+                    <div class="form-group">
+                        <label>Estilo de Prenda</label>
+                        <div class="cards-grid" id="prendasEstilosGrid">
+                            <!-- Inyectado via JS -->
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Técnica de Personalización</label>
+                        <div class="cards-grid" id="tecnicaCards">
+                            <div class="card-option" data-value="dtf" data-tech-price="0">
+                                <span class="card-icon">🖨️</span>
+                                <h3>DTF</h3>
+                            </div>
+                            <div class="card-option" data-value="vinil_textil" data-tech-price="0">
+                                <span class="card-icon">✂️</span>
+                                <h3>Vinil Textil</h3>
+                            </div>
+                            <div class="card-option" data-value="bordado" data-tech-price="0">
+                                <span class="card-icon">🧵</span>
+                                <h3>Bordado</h3>
+                            </div>
+                            <div class="card-option" data-value="sublimacion" data-tech-price="0">
+                                <span class="card-icon">🎨</span>
+                                <h3>Sublimación</h3>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group" id="tamanoDisenoGroup" style="display: none; margin-top: 25px;">
+                        <label>Tamaño del Diseño</label>
+                        <div class="cards-grid" id="tamanoDisenoCards">
+                            <div class="card-option" data-value="10 cm">
+                                <span class="card-icon" style="font-size: 1.5rem;">📏</span>
+                                <h3>10 cm<br><small style="color:var(--text-muted); font-size: 0.75rem;">Logo Pequeño</small></h3>
+                            </div>
+                            <div class="card-option" data-value="15 - 20 cm">
+                                <span class="card-icon" style="font-size: 1.5rem;">📐</span>
+                                <h3>15 - 20 cm<br><small style="color:var(--text-muted); font-size: 0.75rem;">Mediano</small></h3>
+                            </div>
+                            <div class="card-option" data-value="25 cm">
+                                <span class="card-icon" style="font-size: 1.5rem;">🖼️</span>
+                                <h3>25 cm<br><small style="color:var(--text-muted); font-size: 0.75rem;">Grande</small></h3>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="wizard-step flow-prendas" id="step_prendas_3" data-step-id="3">
+                    <h2>3. Detalles y Cantidades</h2>
+                    
+                    <!-- Contenedor dinámico de Tabla de Tallas -->
+                    <div id="sizeChartContainer" style="display: none; margin-bottom: 20px; text-align: center;">
+                        <img id="sizeChartImg" src="" alt="Tabla de Tallas" style="max-width: 100%; border-radius: 8px; box-shadow: 0 4px 12px rgba(0,0,0,0.1);">
+                    </div>
+                    
+                    <div class="form-group">
+                        <label>Color Base de la Prenda</label>
+                        <div class="color-picker-grid" id="colorPicker">
+                            <div class="color-option" data-color="Blanco" style="background-color: #ffffff; border: 1px solid #ddd;"></div>
+                            <div class="color-option" data-color="Negro" style="background-color: #000000;"></div>
+                            <div class="color-option" data-color="Gris" style="background-color: #808080;"></div>
+                            <div class="color-option" data-color="Azul Marino" style="background-color: #000080;"></div>
+                            <div class="color-option" data-color="Rojo" style="background-color: #ff0000;"></div>
+                        </div>
+                        <p class="selected-color-text">Color seleccionado: <strong id="selectedColorDisplay">Ninguno</strong></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cantidades por Talla</label>
+                        <div class="sizes-grid">
+                            <div class="size-input">
+                                <span>XS</span>
+                                <input type="number" min="0" class="qty-input" data-size="XS" value="0">
+                            </div>
+                            <div class="size-input">
+                                <span>S</span>
+                                <input type="number" min="0" class="qty-input" data-size="S" value="0">
+                            </div>
+                            <div class="size-input">
+                                <span>M</span>
+                                <input type="number" min="0" class="qty-input" data-size="M" value="0">
+                            </div>
+                            <div class="size-input">
+                                <span>L</span>
+                                <input type="number" min="0" class="qty-input" data-size="L" value="0">
+                            </div>
+                            <div class="size-input">
+                                <span>XL</span>
+                                <input type="number" min="0" class="qty-input" data-size="XL" value="0">
+                            </div>
+                            <div class="size-input">
+                                <span>XXL</span>
+                                <input type="number" min="0" class="qty-input" data-size="XXL" value="0">
+                            </div>
+                            <div class="size-input">
+                                <span>3XL</span>
+                                <input type="number" min="0" class="qty-input" data-size="3XL" value="0">
+                            </div>
+                        </div>
+                        <div class="total-qty-display">
+                            Total de prendas: <strong id="totalQty">0</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================ -->
+                <!-- FLUJO UNIFORMES -->
+                <!-- ============================ -->
+                <section class="wizard-step flow-uniformes" id="step_uniformes_1" data-step-id="1">
+                    <h2>1. ¿Qué uniforme industrial necesitas?</h2>
+                    
+                    <div class="form-group">
+                        <label>Tipo de Prenda</label>
+                        <div class="cards-grid" id="uniformeCards">
+                            <div class="card-option catalog-card" data-ref="CAMISA_CORTA" data-price="245" data-desc="Manga Corta">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/uniformes_temp/UNI_C_CORTA.png" alt="Camisa Corta" loading="lazy">
+                                </div>
+                                <h3>Camisa Columbia</h3><p class="tooltip">Manga Corta (Tallas Especiales +Q)</p><strong class="price-tag">Q245</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="CAMISA_LARGA" data-price="255" data-desc="Manga Larga">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/uniformes_temp/UNI_C_LARGA.png" alt="Camisa Larga" loading="lazy">
+                                </div>
+                                <h3>Camisa Columbia</h3><p class="tooltip">Manga Larga (Tallas Especiales +Q)</p><strong class="price-tag">Q255</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="PANTALON_1" data-price="235" data-desc="1 Cinta Reflectiva">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/uniformes_temp/UNI_P_1.jpeg" alt="Pantalón 1 Cinta" loading="lazy">
+                                </div>
+                                <h3>Pantalón Lona</h3><p class="tooltip">1 Cinta Reflectiva (Tallas 28-40)</p><strong class="price-tag">Q235</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="PANTALON_2" data-price="245" data-desc="2 Cintas Reflectivas">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/uniformes_temp/UNI_P_2.jpeg" alt="Pantalón 2 Cintas" loading="lazy">
+                                </div>
+                                <h3>Pantalón Lona</h3><p class="tooltip">2 Cintas Reflectivas (Tallas 28-40)</p><strong class="price-tag">Q245</strong>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="wizard-step flow-uniformes" id="step_uniformes_2" data-step-id="2">
+                    <h2>2. Personalización y Reflectivo</h2>
+                    <div class="form-group">
+                        <label>Técnica de Personalización</label>
+                        <div class="cards-grid" id="uniTecnicaCards">
+                            <div class="card-option" data-value="bordado" data-tech-price="0">
+                                <span class="card-icon">🧵</span>
+                                <h3>Bordado</h3>
+                            </div>
+                            <div class="card-option" data-value="vinil_textil" data-tech-price="0">
+                                <span class="card-icon">✂️</span>
+                                <h3>Vinil Textil</h3>
+                            </div>
+                            <div class="card-option" data-value="dtf_textil" data-tech-price="0">
+                                <span class="card-icon">🖨️</span>
+                                <h3>DTF Textil</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Grosor del Reflectivo Textil</label>
+                        <div class="cards-grid" id="uniReflectivoCards">
+                            <div class="card-option selected" data-value="1_pulgada" data-tech-price="0">
+                                <span class="card-icon">📏</span>
+                                <h3>1 Pulgada</h3>
+                            </div>
+                            <div class="card-option" data-value="2_pulgadas" data-tech-price="0">
+                                <span class="card-icon">📏</span>
+                                <h3>2 Pulgadas</h3>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="wizard-step flow-uniformes" id="step_uniformes_3" data-step-id="3">
+                    <h2>3. Color y Tallas</h2>
+                    <div class="form-group" id="uniColorGroup">
+                        <label>Color Base (Solo Camisas)</label>
+                        <div class="color-picker-grid" id="uniColorPicker">
+                            <div class="color-option" data-color="Negro" style="background-color: #000000;"></div>
+                            <div class="color-option" data-color="Gris" style="background-color: #808080;"></div>
+                            <div class="color-option" data-color="Azul Marino" style="background-color: #000080;"></div>
+                            <div class="color-option" data-color="Blanco" style="background-color: #ffffff; border: 1px solid #ddd;"></div>
+                        </div>
+                        <p class="selected-color-text">Color seleccionado: <strong id="uniSelectedColorDisplay">Ninguno</strong></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cantidades por Talla</label>
+                        <div class="sizes-grid" id="uniSizesGrid">
+                            <!-- Inyectado via JS dependiendo si es Camisa o Pantalon -->
+                        </div>
+                        <div class="total-qty-display">
+                            Total de prendas: <strong id="uniTotalQty">0</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================ -->
+                <!-- FLUJO GALARDONES -->
+                <!-- ============================ -->
+                <section class="wizard-step flow-galardones" id="step_galardones_1" data-step-id="1">
+                    <h2>1. Selecciona tu Galardón</h2>
+                    <p class="step-subtitle">Todos los galardones son de Cristal y se trabajan con técnica DTF UV.</p>
+                    
+                    <div class="form-group">
+                        <label>Catálogo (Haz scroll para ver más)</label>
+                        <div class="cards-grid" id="galardonesCards" style="max-height: 350px; overflow-y: auto; align-items: start;">
+                            <!-- ITEM -->
+                            <div class="card-option catalog-card" data-ref="X20S" data-price="285" data-desc="8 cm x 26 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X20S.jpeg" alt="Galardón X20S" loading="lazy">
+                                </div>
+                                <h3>Mod. X20S</h3><p class="tooltip">8 x 26 cm</p><strong class="price-tag">Q285</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="X20L" data-price="325" data-desc="7.5 cm x 31 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X20L.jpeg" alt="Galardón X20L" loading="lazy">
+                                </div>
+                                <h3>Mod. X20L</h3><p class="tooltip">7.5 x 31 cm</p><strong class="price-tag">Q325</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="SH5" data-price="255" data-desc="7 cm x 24 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/SH5.jpeg" alt="Galardón SH5" loading="lazy">
+                                </div>
+                                <h3>Mod. SH5</h3><p class="tooltip">7 x 24 cm</p><strong class="price-tag">Q255</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="X10" data-price="295" data-desc="9 cm x 28 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X10.jpeg" alt="Galardón X10" loading="lazy">
+                                </div>
+                                <h3>Mod. X10</h3><p class="tooltip">9 x 28 cm</p><strong class="price-tag">Q295</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="AB333" data-price="295" data-desc="15 cm x 25 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/AB333.jpeg" alt="Galardón AB333" loading="lazy">
+                                </div>
+                                <h3>Mod. AB333</h3><p class="tooltip">15 x 25 cm</p><strong class="price-tag">Q295</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="C2151" data-price="275" data-desc="16 cm x 18 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/C2151.jpeg" alt="Galardón C2151" loading="lazy">
+                                </div>
+                                <h3>Mod. C2151</h3><p class="tooltip">16 x 18 cm</p><strong class="price-tag">Q275</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="AB8" data-price="275" data-desc="16.5 cm x 24 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/AB8.jpeg" alt="Galardón AB8" loading="lazy">
+                                </div>
+                                <h3>Mod. AB8</h3><p class="tooltip">16.5 x 24 cm</p><strong class="price-tag">Q275</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="X5" data-price="245" data-desc="16 cm x 23 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X5.jpeg" alt="Galardón X5" loading="lazy">
+                                </div>
+                                <h3>Mod. X5</h3><p class="tooltip">16 x 23 cm</p><strong class="price-tag">Q245</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="P58" data-price="160" data-desc="11.5 cm x 16.5 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/P58.jpeg" alt="Galardón P58" loading="lazy">
+                                </div>
+                                <h3>Mod. P58</h3><p class="tooltip">11.5 x 16.5 cm</p><strong class="price-tag">Q160</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="P39" data-price="160" data-desc="11 cm x 17 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/P39.jpeg" alt="Galardón P39" loading="lazy">
+                                </div>
+                                <h3>Mod. P39</h3><p class="tooltip">11 x 17 cm</p><strong class="price-tag">Q160</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="H1" data-price="205" data-desc="15.5 cm x 18.5 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/H1.jpeg" alt="Galardón H1" loading="lazy">
+                                </div>
+                                <h3>Mod. H1</h3><p class="tooltip">15.5 x 18.5 cm</p><strong class="price-tag">Q205</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="GX8" data-price="255" data-desc="18 cm x 21 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/GX8.jpeg" alt="Galardón GX8" loading="lazy">
+                                </div>
+                                <h3>Mod. GX8</h3><p class="tooltip">18 x 21 cm</p><strong class="price-tag">Q255</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="H023" data-price="225" data-desc="13.5 cm x 21 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/H023.jpeg" alt="Galardón H023" loading="lazy">
+                                </div>
+                                <h3>Mod. H023</h3><p class="tooltip">13.5 x 21 cm</p><strong class="price-tag">Q225</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="WM58" data-price="225" data-desc="13.5 cm x 21 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/WM58.jpeg" alt="Galardón WM58" loading="lazy">
+                                </div>
+                                <h3>Mod. WM58</h3><p class="tooltip">13.5 x 21 cm</p><strong class="price-tag">Q225</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="WN1" data-price="225" data-desc="13.5 cm x 21 cm (caja indiv.)">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/WN1.jpeg" alt="Galardón WN1" loading="lazy">
+                                </div>
+                                <h3>Mod. WN1</h3><p class="tooltip">13.5 x 21 cm (caja indiv.)</p><strong class="price-tag">Q225</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="X11" data-price="275" data-desc="17.5 cm x 20.5 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X11.jpeg" alt="Galardón X11" loading="lazy">
+                                </div>
+                                <h3>Mod. X11</h3><p class="tooltip">17.5 x 20.5 cm</p><strong class="price-tag">Q275</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="HA2" data-price="275" data-desc="16.5 cm x 24.5 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/HA2.jpeg" alt="Galardón HA2" loading="lazy">
+                                </div>
+                                <h3>Mod. HA2</h3><p class="tooltip">16.5 x 24.5 cm</p><strong class="price-tag">Q275</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="H23" data-price="225" data-desc="14 cm x 21 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/H23.jpeg" alt="Galardón H23" loading="lazy">
+                                </div>
+                                <h3>Mod. H23</h3><p class="tooltip">14 x 21 cm</p><strong class="price-tag">Q225</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="H34" data-price="225" data-desc="13 cm x 20.5 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/H34.jpeg" alt="Galardón H34" loading="lazy">
+                                </div>
+                                <h3>Mod. H34</h3><p class="tooltip">13 x 20.5 cm</p><strong class="price-tag">Q225</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="X1" data-price="215" data-desc="9 cm x 23 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X1.png" alt="Galardón X1" loading="lazy">
+                                </div>
+                                <h3>Mod. X1</h3><p class="tooltip">9 x 23 cm</p><strong class="price-tag">Q215</strong>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="wizard-step flow-galardones" id="step_galardones_2" data-step-id="2">
+                    <h2>2. Cantidad</h2>
+                    
+                    <div class="form-group">
+                        <label>Cantidad (Unidades)</label>
+                        <div class="sizes-grid">
+                            <div class="size-input" style="grid-column: span 2;">
+                                <span>Total</span>
+                                <input type="number" min="1" id="galardonesQty" value="1" style="font-size: 1.5rem;">
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================ -->
+                <!-- FLUJO METROS DTF UV -->
+                <!-- ============================ -->
+                <section class="wizard-step flow-dtf" id="step_dtf_1" data-step-id="1">
+                    <h2>1. Detalles de Impresión DTF UV</h2>
+                    
+                    <div class="form-group">
+                        <label>Ancho del Rollo</label>
+                        <div class="cards-grid" id="dtfWidthCards">
+                            <div class="card-option selected" data-value="28cm" data-base-price="120">
+                                <span class="card-icon">📏</span>
+                                <h3>28 cm</h3>
+                                <p class="tooltip">Ancho estándar de la máquina DTF UV / Textil.</p>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cantidad de Metros Lineales</label>
+                        <div class="sizes-grid">
+                            <div class="size-input" style="grid-column: span 2;">
+                                <span>Metros</span>
+                                <input type="number" min="0.5" step="0.5" id="dtfQty" value="1" style="font-size: 1.5rem;">
+                            </div>
+                        </div>
+                        <p class="step-subtitle" style="margin-top:10px;">Puedes usar decimales, ej. 1.5 metros.</p>
+                    </div>
+                </section>
+
+                <!-- Paso de Stickers -->
+                <section class="wizard-step flow-stickers" id="step_stickers_1" data-step-id="1">
+                    <h2>1. Cotización de Stickers</h2>
+                    <p class="step-subtitle">Los precios mostrados son por cada ciento (100 unidades).</p>
+                    <div class="form-group">
+                        <label>Medida (cm)</label>
+                        <select id="stickerSize" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: white; border-radius: var(--radius-sm);">
+                            <option value="" disabled selected>Selecciona una medida</option>
+                            <option value="3x3" data-price="35">3 x 3 cm - Q35</option>
+                            <option value="4x4" data-price="40">4 x 4 cm - Q40</option>
+                            <option value="5x5" data-price="60">5 x 5 cm - Q60</option>
+                            <option value="6x6" data-price="90">6 x 6 cm - Q90</option>
+                            <option value="7x7" data-price="120">7 x 7 cm - Q120</option>
+                            <option value="8x8" data-price="150">8 x 8 cm - Q150</option>
+                            <option value="9x9" data-price="186">9 x 9 cm - Q186</option>
+                            <option value="10x10" data-price="215">10 x 10 cm - Q215</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label>Cantidad (en Cientos)</label>
+                        <p class="step-subtitle">Ej. 2 = 200 stickers</p>
+                        <input type="number" id="stickerQty" min="1" value="1" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: white; border-radius: var(--radius-sm);">
+                    </div>
+                </section>
+
+                <!-- Paso de Otros Productos -->
+                <section class="wizard-step flow-otros" id="step_otros_1" data-step-id="1">
+                    <h2>1. ¿Qué estás buscando?</h2>
+                    <p class="step-subtitle">Déjanos saber qué otro producto te interesa (ej. pachones, tazas, libretas, lapiceros) y cantidades aproximadas. Si cuentas con el diseño, adjúntalo en el siguiente paso.</p>
+                    <div class="form-group">
+                        <textarea id="otrosText" rows="5" style="width: 100%; padding: 12px; background: rgba(0,0,0,0.2); border: 1px solid var(--border-color); color: white; border-radius: var(--radius-sm); resize: vertical;" placeholder="Describe tu necesidad aquí..."></textarea>
+                    </div>
+                </section>
+
+                <!-- ============================ -->
+                <!-- PASOS COMPARTIDOS -->
+                <!-- ============================ -->
+                <!-- STEP 3: Diseño (Aplica para todos) -->
+                <section class="wizard-step shared-step" id="step_design" data-step-id="3">
+                    <h2>Diseño y Arte</h2>
+                    <p class="step-subtitle">Formatos aceptados: PNG, PDF, AI, PSD, SVG</p>
+                    
+                    <div class="dropzone" id="dropzone">
+                        <div class="dropzone-content">
+                            <span class="upload-icon">📁</span>
+                            <p>Arrastra y suelta tu archivo aquí</p>
+                            <p class="separator">o</p>
+                            <button type="button" class="btn-secondary" id="browseBtn">Explorar archivos</button>
+                            <input type="file" id="fileInput" accept=".png,.pdf,.ai,.psd,.svg" hidden>
+                        </div>
+                    </div>
+                    <div id="filePreview" class="file-preview hidden">
+                        <div class="file-info">
+                            <span class="file-name" id="fileName">nombre_archivo.png</span>
+                            <span class="file-size" id="fileSize">2.5 MB</span>
+                        </div>
+                        <button type="button" class="btn-remove-file" id="removeFileBtn">✕</button>
+                    </div>
+                </section>
+
+                <!-- STEP 4: Resumen y Estimado -->
+                <section class="wizard-step shared-step" id="step_summary" data-step-id="4">
+                    <h2>Resumen de Cotización</h2>
+                    <div class="summary-panel" id="summaryPanelContainer">
+                        <!-- Inyectado por JS -->
+                    </div>
+                </section>
+
+                <!-- STEP 5: Datos de Contacto -->
+                <section class="wizard-step shared-step" id="step_contact" data-step-id="5">
+                    <h2>Tus Datos</h2>
+                    <div class="contact-form">
+                        <div class="input-group">
+                            <label for="userName">Nombre Completo</label>
+                            <input type="text" id="userName" placeholder="Ej. Juan Pérez" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="userPhone">Teléfono / WhatsApp</label>
+                            <input type="tel" id="userPhone" placeholder="Ej. 5555 5555" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="userEmail">Correo Electrónico</label>
+                            <input type="email" id="userEmail" placeholder="ejemplo@correo.com" required>
+                        </div>
+                        <div class="input-group">
+                            <label for="userNotes">Especificaciones adicionales (Opcional)</label>
+                            <textarea id="userNotes" rows="3" placeholder="Ej. El logo debe ir en el pecho lado izquierdo..."></textarea>
+                        </div>
+                    </div>
+                </section>
+            </main>
+
+            <!-- Navigation Buttons -->
+            <footer class="wizard-footer">
+                <button class="btn-nav btn-prev hidden" id="btnPrev">Anterior</button>
+                <div class="nav-right">
+                    <button class="btn-nav btn-next hidden" id="btnNext">Siguiente</button>
+                    <button class="btn-action btn-whatsapp hidden" id="btnWhatsapp">Enviar por WhatsApp</button>
+                    <button class="btn-action btn-email hidden" id="btnEmail">Enviar por Correo</button>
+                </div>
+            </footer>
+        </div>
+    </div>
+    <script src="assets/js/cotizador.js"></script>
+</body>
+</html>
