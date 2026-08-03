@@ -10,7 +10,18 @@ document.addEventListener('DOMContentLoaded', () => {
             prenda: null,
             tecnica: null,
             colorBase: null,
-            cantidades: { XS: 0, S: 0, M: 0, L: 0, XL: 0, XXL: 0 },
+            cantidades: { XS: 0, S: 0, M: 0, L: 0, XL: 0, XXL: 0, '3XL': 0 },
+            totalQty: 0
+        },
+        // Data Uniformes
+        uniformes: {
+            prenda: null,
+            prendaDesc: null,
+            basePrice: 0,
+            tecnica: null,
+            reflectivo: '1 Pulgada',
+            colorBase: null,
+            cantidades: {},
             totalQty: 0
         },
         // Data Galardones
@@ -49,11 +60,21 @@ document.addEventListener('DOMContentLoaded', () => {
         // Prendas
         prendaCards: document.querySelectorAll('#prendaCards .card-option'),
         tecnicaCards: document.querySelectorAll('#tecnicaCards .card-option'),
-        colorOptions: document.querySelectorAll('.color-option'),
+        colorOptions: document.querySelectorAll('#colorPicker .color-option'),
         selectedColorDisplay: document.getElementById('selectedColorDisplay'),
         qtyInputs: document.querySelectorAll('.qty-input'),
         totalQtyDisplay: document.getElementById('totalQty'),
         
+        // Uniformes
+        uniformeCards: document.querySelectorAll('#uniformeCards .card-option'),
+        uniTecnicaCards: document.querySelectorAll('#uniTecnicaCards .card-option'),
+        uniReflectivoCards: document.querySelectorAll('#uniReflectivoCards .card-option'),
+        uniColorOptions: document.querySelectorAll('#uniColorPicker .color-option'),
+        uniSelectedColorDisplay: document.getElementById('uniSelectedColorDisplay'),
+        uniColorGroup: document.getElementById('uniColorGroup'),
+        uniSizesGrid: document.getElementById('uniSizesGrid'),
+        uniTotalQtyDisplay: document.getElementById('uniTotalQty'),
+
         // Galardones
         galardonesCards: document.querySelectorAll('#galardonesCards .card-option'),
         galardonesQty: document.getElementById('galardonesQty'),
@@ -81,6 +102,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Flow definitions
     const flows = {
         prendas: ['step_category', 'step_prendas_1', 'step_prendas_2', 'step_design', 'step_summary', 'step_contact'],
+        uniformes: ['step_category', 'step_uniformes_1', 'step_uniformes_2', 'step_uniformes_3', 'step_design', 'step_summary', 'step_contact'],
         galardones: ['step_category', 'step_galardones_1', 'step_galardones_2', 'step_design', 'step_summary', 'step_contact'],
         dtf_uv: ['step_category', 'step_dtf_1', 'step_design', 'step_summary', 'step_contact']
     };
@@ -180,6 +202,17 @@ document.addEventListener('DOMContentLoaded', () => {
             isValid = state.prendas.prenda !== null && state.prendas.tecnica !== null;
         } else if (currentStepId === 'step_prendas_2') {
             isValid = state.prendas.totalQty > 0 && state.prendas.colorBase !== null;
+        } else if (currentStepId === 'step_uniformes_1') {
+            isValid = state.uniformes.prenda !== null;
+        } else if (currentStepId === 'step_uniformes_2') {
+            isValid = state.uniformes.tecnica !== null && state.uniformes.reflectivo !== null;
+        } else if (currentStepId === 'step_uniformes_3') {
+            const isCamisa = state.uniformes.prenda && state.uniformes.prenda.includes('CAMISA');
+            if (isCamisa) {
+                isValid = state.uniformes.totalQty > 0 && state.uniformes.colorBase !== null;
+            } else {
+                isValid = state.uniformes.totalQty > 0;
+            }
         } else if (currentStepId === 'step_galardones_1') {
             isValid = state.galardones.ref !== null;
         } else if (currentStepId === 'step_galardones_2') {
@@ -232,6 +265,91 @@ document.addEventListener('DOMContentLoaded', () => {
             });
             state.prendas.totalQty = total;
             elements.totalQtyDisplay.textContent = total;
+            validateStep();
+        });
+    });
+
+    // --- UNIFORMES INTERACTIONS ---
+    elements.uniformeCards.forEach(card => {
+        card.addEventListener('click', () => {
+            elements.uniformeCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            state.uniformes.prenda = card.dataset.ref;
+            state.uniformes.prendaDesc = card.querySelector('h3').textContent + " " + card.dataset.desc;
+            state.uniformes.basePrice = parseFloat(card.dataset.price);
+            
+            // Build dynamic sizes grid
+            const isCamisa = state.uniformes.prenda.includes('CAMISA');
+            if (isCamisa) {
+                elements.uniColorGroup.classList.remove('hidden');
+                buildUniSizesGrid(['S', 'M', 'L', 'XL', 'XXL', 'XXXL']);
+            } else {
+                elements.uniColorGroup.classList.add('hidden');
+                buildUniSizesGrid(['28', '30', '32', '34', '36', '38', '40']);
+            }
+            
+            // reset quantities
+            state.uniformes.cantidades = {};
+            state.uniformes.totalQty = 0;
+            elements.uniTotalQtyDisplay.textContent = 0;
+            
+            validateStep();
+        });
+    });
+
+    function buildUniSizesGrid(sizes) {
+        elements.uniSizesGrid.innerHTML = '';
+        sizes.forEach(size => {
+            const div = document.createElement('div');
+            div.className = 'size-input';
+            div.innerHTML = `
+                <span>${size}</span>
+                <input type="number" min="0" class="uni-qty-input" data-size="${size}" value="0">
+            `;
+            elements.uniSizesGrid.appendChild(div);
+        });
+
+        // Add listeners to new inputs
+        document.querySelectorAll('.uni-qty-input').forEach(input => {
+            input.addEventListener('input', () => {
+                let total = 0;
+                document.querySelectorAll('.uni-qty-input').forEach(inp => {
+                    let val = parseInt(inp.value) || 0;
+                    if (val < 0) { val = 0; inp.value = 0; }
+                    state.uniformes.cantidades[inp.dataset.size] = val;
+                    total += val;
+                });
+                state.uniformes.totalQty = total;
+                elements.uniTotalQtyDisplay.textContent = total;
+                validateStep();
+            });
+        });
+    }
+
+    elements.uniTecnicaCards.forEach(card => {
+        card.addEventListener('click', () => {
+            elements.uniTecnicaCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            state.uniformes.tecnica = card.querySelector('h3').textContent;
+            validateStep();
+        });
+    });
+
+    elements.uniReflectivoCards.forEach(card => {
+        card.addEventListener('click', () => {
+            elements.uniReflectivoCards.forEach(c => c.classList.remove('selected'));
+            card.classList.add('selected');
+            state.uniformes.reflectivo = card.querySelector('h3').textContent;
+            validateStep();
+        });
+    });
+
+    elements.uniColorOptions.forEach(opt => {
+        opt.addEventListener('click', () => {
+            elements.uniColorOptions.forEach(c => c.classList.remove('selected'));
+            opt.classList.add('selected');
+            state.uniformes.colorBase = opt.dataset.color;
+            elements.uniSelectedColorDisplay.textContent = state.uniformes.colorBase;
             validateStep();
         });
     });
@@ -304,7 +422,25 @@ document.addEventListener('DOMContentLoaded', () => {
     function calculateTotal() {
         let total = 0;
         if (state.category === 'prendas') {
-            total = 0; 
+            if (state.prendas.prenda === 'Playera' && state.prendas.totalQty >= 25) {
+                for (let [size, qty] of Object.entries(state.prendas.cantidades)) {
+                    let price = 50;
+                    if (['XL', 'XXL', '3XL'].includes(size)) {
+                        price += 10;
+                    }
+                    total += price * qty;
+                }
+            } else {
+                total = 0; 
+            }
+        } else if (state.category === 'uniformes') {
+            const isCamisa = state.uniformes.prenda && state.uniformes.prenda.includes('CAMISA');
+            for(let [size, qty] of Object.entries(state.uniformes.cantidades)) {
+                let price = state.uniformes.basePrice;
+                if(isCamisa && size === 'XXL') price += 5;
+                if(isCamisa && size === 'XXXL') price += 10;
+                total += price * qty;
+            }
         } else if (state.category === 'galardones') {
             total = state.galardones.unitPrice * state.galardones.cantidad;
         } else if (state.category === 'dtf_uv') {
@@ -326,6 +462,18 @@ document.addEventListener('DOMContentLoaded', () => {
                 <div class="summary-row"><span>Color Base:</span><strong>${state.prendas.colorBase}</strong></div>
                 <div class="summary-row"><span>Cantidad Total:</span><strong>${state.prendas.totalQty}</strong></div>
             `;
+        } else if (state.category === 'uniformes') {
+            let sizesStr = Object.entries(state.uniformes.cantidades).filter(([_, qty]) => qty > 0).map(([size, qty]) => `${qty} talla ${size}`).join(', ');
+            html = `
+                <div class="summary-row"><span>Categoría:</span><strong>Uniformes Industriales</strong></div>
+                <div class="summary-row"><span>Prenda:</span><strong>${state.uniformes.prendaDesc}</strong></div>
+                <div class="summary-row"><span>Técnica:</span><strong>${state.uniformes.tecnica}</strong></div>
+                <div class="summary-row"><span>Cinta Reflectiva:</span><strong>${state.uniformes.reflectivo}</strong></div>
+            `;
+            if (state.uniformes.colorBase) {
+                html += `<div class="summary-row"><span>Color:</span><strong>${state.uniformes.colorBase}</strong></div>`;
+            }
+            html += `<div class="summary-row"><span>Tallas:</span><strong>${sizesStr} (Total: ${state.uniformes.totalQty})</strong></div>`;
         } else if (state.category === 'galardones') {
             html = `
                 <div class="summary-row"><span>Categoría:</span><strong>Galardones de Cristal (DTF UV)</strong></div>
@@ -377,6 +525,11 @@ document.addEventListener('DOMContentLoaded', () => {
         if (state.category === 'prendas') {
             let sizesStr = Object.entries(state.prendas.cantidades).filter(([_, qty]) => qty > 0).map(([size, qty]) => `${qty} talla ${size}`).join(', ');
             msg += `- Categoría: Prendas Personalizadas%0A- Prenda: ${state.prendas.prenda}%0A- Técnica: ${state.prendas.tecnica}%0A- Color Base: ${state.prendas.colorBase}%0A- Cantidades: ${sizesStr} (Total: ${state.prendas.totalQty})%0A`;
+        } else if (state.category === 'uniformes') {
+            let sizesStr = Object.entries(state.uniformes.cantidades).filter(([_, qty]) => qty > 0).map(([size, qty]) => `${qty} talla ${size}`).join(', ');
+            msg += `- Categoría: Uniformes Industriales%0A- Prenda: ${state.uniformes.prendaDesc}%0A- Técnica: ${state.uniformes.tecnica}%0A- Cinta Reflectiva: ${state.uniformes.reflectivo}%0A`;
+            if (state.uniformes.colorBase) msg += `- Color: ${state.uniformes.colorBase}%0A`;
+            msg += `- Tallas: ${sizesStr} (Total: ${state.uniformes.totalQty})%0A`;
         } else if (state.category === 'galardones') {
             msg += `- Categoría: Galardón de Cristal (DTF UV)%0A- Modelo Ref: ${state.galardones.ref}%0A- Dimensiones: ${state.galardones.desc}%0A- Precio Unitario Referencial: Q ${state.galardones.unitPrice}%0A- Cantidad: ${state.galardones.cantidad}%0A`;
         } else if (state.category === 'dtf_uv') {

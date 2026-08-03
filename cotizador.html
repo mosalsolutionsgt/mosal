@@ -38,7 +38,12 @@
                         <div class="card-option category-card" data-category="prendas">
                             <span class="card-icon">👕</span>
                             <h3>Prendas Personalizadas</h3>
-                            <p class="tooltip">Playeras, sudaderas, gorras, uniformes.</p>
+                            <p class="tooltip">Playeras, sudaderas, gorras.</p>
+                        </div>
+                        <div class="card-option category-card" data-category="uniformes">
+                            <span class="card-icon">🦺</span>
+                            <h3>Uniformes Industriales</h3>
+                            <p class="tooltip">Camisas Columbia y pantalones de lona reflectivos.</p>
                         </div>
                         <div class="card-option category-card" data-category="galardones">
                             <span class="card-icon">🏆</span>
@@ -73,10 +78,6 @@
                             <div class="card-option" data-value="gorra" data-base-price="0">
                                 <span class="card-icon">🧢</span>
                                 <h3>Gorra</h3>
-                            </div>
-                            <div class="card-option" data-value="uniforme" data-base-price="0">
-                                <span class="card-icon">👔</span>
-                                <h3>Uniforme</h3>
                             </div>
                         </div>
                     </div>
@@ -150,9 +151,108 @@
                                 <span>XXL</span>
                                 <input type="number" min="0" class="qty-input" data-size="XXL" value="0">
                             </div>
+                            <div class="size-input">
+                                <span>3XL</span>
+                                <input type="number" min="0" class="qty-input" data-size="3XL" value="0">
+                            </div>
                         </div>
                         <div class="total-qty-display">
                             Total de prendas: <strong id="totalQty">0</strong>
+                        </div>
+                    </div>
+                </section>
+
+                <!-- ============================ -->
+                <!-- FLUJO UNIFORMES -->
+                <!-- ============================ -->
+                <section class="wizard-step flow-uniformes" id="step_uniformes_1" data-step-id="1">
+                    <h2>1. ¿Qué uniforme industrial necesitas?</h2>
+                    
+                    <div class="form-group">
+                        <label>Tipo de Prenda</label>
+                        <div class="cards-grid" id="uniformeCards">
+                            <div class="card-option catalog-card" data-ref="CAMISA_CORTA" data-price="245" data-desc="Manga Corta">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/uniformes_temp/UNI_C_CORTA.png" alt="Camisa Corta" loading="lazy">
+                                </div>
+                                <h3>Camisa Columbia</h3><p class="tooltip">Manga Corta (Tallas Especiales +Q)</p><strong class="price-tag">Q245</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="CAMISA_LARGA" data-price="255" data-desc="Manga Larga">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/uniformes_temp/UNI_C_LARGA.png" alt="Camisa Larga" loading="lazy">
+                                </div>
+                                <h3>Camisa Columbia</h3><p class="tooltip">Manga Larga (Tallas Especiales +Q)</p><strong class="price-tag">Q255</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="PANTALON_1" data-price="235" data-desc="1 Cinta Reflectiva">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/uniformes_temp/UNI_P_1.jpeg" alt="Pantalón 1 Cinta" loading="lazy">
+                                </div>
+                                <h3>Pantalón Lona</h3><p class="tooltip">1 Cinta Reflectiva (Tallas 28-40)</p><strong class="price-tag">Q235</strong>
+                            </div>
+                            <div class="card-option catalog-card" data-ref="PANTALON_2" data-price="245" data-desc="2 Cintas Reflectivas">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/uniformes_temp/UNI_P_2.jpeg" alt="Pantalón 2 Cintas" loading="lazy">
+                                </div>
+                                <h3>Pantalón Lona</h3><p class="tooltip">2 Cintas Reflectivas (Tallas 28-40)</p><strong class="price-tag">Q245</strong>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="wizard-step flow-uniformes" id="step_uniformes_2" data-step-id="2">
+                    <h2>2. Personalización y Reflectivo</h2>
+                    <div class="form-group">
+                        <label>Técnica de Personalización</label>
+                        <div class="cards-grid" id="uniTecnicaCards">
+                            <div class="card-option" data-value="bordado" data-tech-price="0">
+                                <span class="card-icon">🧵</span>
+                                <h3>Bordado</h3>
+                            </div>
+                            <div class="card-option" data-value="vinil_textil" data-tech-price="0">
+                                <span class="card-icon">✂️</span>
+                                <h3>Vinil Textil</h3>
+                            </div>
+                            <div class="card-option" data-value="dtf_textil" data-tech-price="0">
+                                <span class="card-icon">🖨️</span>
+                                <h3>DTF Textil</h3>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label>Grosor del Reflectivo Textil</label>
+                        <div class="cards-grid" id="uniReflectivoCards">
+                            <div class="card-option selected" data-value="1_pulgada" data-tech-price="0">
+                                <span class="card-icon">📏</span>
+                                <h3>1 Pulgada</h3>
+                            </div>
+                            <div class="card-option" data-value="2_pulgadas" data-tech-price="0">
+                                <span class="card-icon">📏</span>
+                                <h3>2 Pulgadas</h3>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+
+                <section class="wizard-step flow-uniformes" id="step_uniformes_3" data-step-id="3">
+                    <h2>3. Color y Tallas</h2>
+                    <div class="form-group" id="uniColorGroup">
+                        <label>Color Base (Solo Camisas)</label>
+                        <div class="color-picker-grid" id="uniColorPicker">
+                            <div class="color-option" data-color="Negro" style="background-color: #000000;"></div>
+                            <div class="color-option" data-color="Gris" style="background-color: #808080;"></div>
+                            <div class="color-option" data-color="Azul Marino" style="background-color: #000080;"></div>
+                            <div class="color-option" data-color="Blanco" style="background-color: #ffffff; border: 1px solid #ddd;"></div>
+                        </div>
+                        <p class="selected-color-text">Color seleccionado: <strong id="uniSelectedColorDisplay">Ninguno</strong></p>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Cantidades por Talla</label>
+                        <div class="sizes-grid" id="uniSizesGrid">
+                            <!-- Inyectado via JS dependiendo si es Camisa o Pantalon -->
+                        </div>
+                        <div class="total-qty-display">
+                            Total de prendas: <strong id="uniTotalQty">0</strong>
                         </div>
                     </div>
                 </section>
@@ -169,63 +269,123 @@
                         <div class="cards-grid" id="galardonesCards" style="max-height: 350px; overflow-y: auto; align-items: start;">
                             <!-- ITEM -->
                             <div class="card-option catalog-card" data-ref="X20S" data-price="285" data-desc="8 cm x 26 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X20S.jpeg" alt="Galardón X20S" loading="lazy">
+                                </div>
                                 <h3>Mod. X20S</h3><p class="tooltip">8 x 26 cm</p><strong class="price-tag">Q285</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="X20L" data-price="325" data-desc="7.5 cm x 31 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X20L.jpeg" alt="Galardón X20L" loading="lazy">
+                                </div>
                                 <h3>Mod. X20L</h3><p class="tooltip">7.5 x 31 cm</p><strong class="price-tag">Q325</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="SH5" data-price="255" data-desc="7 cm x 24 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/SH5.jpeg" alt="Galardón SH5" loading="lazy">
+                                </div>
                                 <h3>Mod. SH5</h3><p class="tooltip">7 x 24 cm</p><strong class="price-tag">Q255</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="X10" data-price="295" data-desc="9 cm x 28 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X10.jpeg" alt="Galardón X10" loading="lazy">
+                                </div>
                                 <h3>Mod. X10</h3><p class="tooltip">9 x 28 cm</p><strong class="price-tag">Q295</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="AB333" data-price="295" data-desc="15 cm x 25 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/AB333.jpeg" alt="Galardón AB333" loading="lazy">
+                                </div>
                                 <h3>Mod. AB333</h3><p class="tooltip">15 x 25 cm</p><strong class="price-tag">Q295</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="C2151" data-price="275" data-desc="16 cm x 18 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/C2151.jpeg" alt="Galardón C2151" loading="lazy">
+                                </div>
                                 <h3>Mod. C2151</h3><p class="tooltip">16 x 18 cm</p><strong class="price-tag">Q275</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="AB8" data-price="275" data-desc="16.5 cm x 24 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/AB8.jpeg" alt="Galardón AB8" loading="lazy">
+                                </div>
                                 <h3>Mod. AB8</h3><p class="tooltip">16.5 x 24 cm</p><strong class="price-tag">Q275</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="X5" data-price="245" data-desc="16 cm x 23 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X5.jpeg" alt="Galardón X5" loading="lazy">
+                                </div>
                                 <h3>Mod. X5</h3><p class="tooltip">16 x 23 cm</p><strong class="price-tag">Q245</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="P58" data-price="160" data-desc="11.5 cm x 16.5 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/P58.jpeg" alt="Galardón P58" loading="lazy">
+                                </div>
                                 <h3>Mod. P58</h3><p class="tooltip">11.5 x 16.5 cm</p><strong class="price-tag">Q160</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="P39" data-price="160" data-desc="11 cm x 17 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/P39.jpeg" alt="Galardón P39" loading="lazy">
+                                </div>
                                 <h3>Mod. P39</h3><p class="tooltip">11 x 17 cm</p><strong class="price-tag">Q160</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="H1" data-price="205" data-desc="15.5 cm x 18.5 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/H1.jpeg" alt="Galardón H1" loading="lazy">
+                                </div>
                                 <h3>Mod. H1</h3><p class="tooltip">15.5 x 18.5 cm</p><strong class="price-tag">Q205</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="GX8" data-price="255" data-desc="18 cm x 21 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/GX8.jpeg" alt="Galardón GX8" loading="lazy">
+                                </div>
                                 <h3>Mod. GX8</h3><p class="tooltip">18 x 21 cm</p><strong class="price-tag">Q255</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="H023" data-price="225" data-desc="13.5 cm x 21 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/H023.jpeg" alt="Galardón H023" loading="lazy">
+                                </div>
                                 <h3>Mod. H023</h3><p class="tooltip">13.5 x 21 cm</p><strong class="price-tag">Q225</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="WM58" data-price="225" data-desc="13.5 cm x 21 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/WM58.jpeg" alt="Galardón WM58" loading="lazy">
+                                </div>
                                 <h3>Mod. WM58</h3><p class="tooltip">13.5 x 21 cm</p><strong class="price-tag">Q225</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="WN1" data-price="225" data-desc="13.5 cm x 21 cm (caja indiv.)">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/WN1.jpeg" alt="Galardón WN1" loading="lazy">
+                                </div>
                                 <h3>Mod. WN1</h3><p class="tooltip">13.5 x 21 cm (caja indiv.)</p><strong class="price-tag">Q225</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="X11" data-price="275" data-desc="17.5 cm x 20.5 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X11.jpeg" alt="Galardón X11" loading="lazy">
+                                </div>
                                 <h3>Mod. X11</h3><p class="tooltip">17.5 x 20.5 cm</p><strong class="price-tag">Q275</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="HA2" data-price="275" data-desc="16.5 cm x 24.5 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/HA2.jpeg" alt="Galardón HA2" loading="lazy">
+                                </div>
                                 <h3>Mod. HA2</h3><p class="tooltip">16.5 x 24.5 cm</p><strong class="price-tag">Q275</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="H23" data-price="225" data-desc="14 cm x 21 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/H23.jpeg" alt="Galardón H23" loading="lazy">
+                                </div>
                                 <h3>Mod. H23</h3><p class="tooltip">14 x 21 cm</p><strong class="price-tag">Q225</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="H34" data-price="225" data-desc="13 cm x 20.5 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/H34.jpeg" alt="Galardón H34" loading="lazy">
+                                </div>
                                 <h3>Mod. H34</h3><p class="tooltip">13 x 20.5 cm</p><strong class="price-tag">Q225</strong>
                             </div>
                             <div class="card-option catalog-card" data-ref="X1" data-price="215" data-desc="9 cm x 23 cm">
+                                <div class="catalog-img-wrapper">
+                                    <img src="assets/mockups/X1.png" alt="Galardón X1" loading="lazy">
+                                </div>
                                 <h3>Mod. X1</h3><p class="tooltip">9 x 23 cm</p><strong class="price-tag">Q215</strong>
                             </div>
                         </div>

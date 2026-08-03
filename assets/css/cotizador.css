@@ -657,3 +657,21 @@ button {
     font-size: 1.2rem;
     color: #fff;
 }
+
+/* Catalog Images */
+.catalog-img-wrapper {
+    width: 100%;
+    height: 140px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-bottom: 10px;
+    overflow: hidden;
+    border-radius: 8px;
+    background: #fff;
+}
+.catalog-img-wrapper img {
+    max-height: 100%;
+    max-width: 100%;
+    object-fit: contain;
+}
